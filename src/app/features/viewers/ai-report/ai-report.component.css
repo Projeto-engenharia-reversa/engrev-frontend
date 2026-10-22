@@ -1,0 +1,81 @@
+.report-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.report-toolbar .muted {
+  font-size: 17px;
+}
+
+.report-toolbar .btn {
+  font-size: 15px;
+  padding: 8px 16px;
+}
+
+.report-body {
+  line-height: 1.8;
+  font-size: 17px;
+}
+
+.report-body h3 {
+  font-size: 22px;
+  margin: 0 0 16px;
+}
+
+.report-body h4 {
+  font-size: 18px;
+  color: var(--accent);
+  margin: 28px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.report-body h3 + p,
+.report-body h4 + ul {
+  margin-top: 0;
+}
+
+.report-body p {
+  margin: 6px 0;
+}
+
+.report-body ul {
+  margin: 8px 0;
+  padding-left: 22px;
+}
+
+.report-body li {
+  margin-bottom: 8px;
+}
+
+/* As colunas da entidade vêm de uma linha indentada sob o item da lista; ficam
+   numa linha própria para o cabeçalho (origem e confiança) continuar legível. */
+.report-body .cols {
+  display: block;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+  margin-top: 2px;
+}
+
+.report-body code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1px 5px;
+  overflow-wrap: anywhere;
+}
+
+.report-body strong {
+  color: var(--text);
+}
+
+.report-body em {
+  color: var(--muted);
+  font-style: normal;
+  font-size: 15px;
+}

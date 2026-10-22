@@ -1,0 +1,134 @@
+/* Mesma identidade bege do dashboard, e agora também a mesma escala. As cores
+   vão literais (#dbc19e / #4a3f2b / #6b6046 / #3a3020) pelo mesmo motivo que lá:
+   sobre o bege, os tokens de texto do tema global -- que assumem o --bg escuro --
+   ficariam ilegíveis.
+
+   A escala grande não é enfeite. Esta rota é um campo de 100vh na largura inteira
+   depois da sidebar; na tipografia global de 13-15px o formulário virava um
+   bloquinho boiando em bege, destoando de "Seus projetos" logo ao lado no menu.
+   Os degraus tipográficos aqui espelham dashboard.component.css. */
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #dbc19e;
+  margin: -28px -32px;
+  padding: 60px 46px 84px;
+}
+
+.account {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+
+.account-header h1 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 700;
+  color: #3a3020;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+.account-header p {
+  margin: 10px 0 0;
+  font-size: 18px;
+  color: #6b6046;
+}
+
+.account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  background: rgba(255, 255, 255, 0.34);
+  border: 1px solid rgba(74, 63, 43, 0.14);
+  border-radius: 18px;
+  padding: 34px;
+}
+
+/* `.field` global traz margin-bottom: 14px, que aqui brigaria com o gap. */
+.account-form .field {
+  margin-bottom: 0;
+  gap: 9px;
+}
+
+.account-form .label {
+  font-size: 15px;
+  color: #6b6046;
+  font-weight: 600;
+}
+
+.account-form .input {
+  padding: 14px 16px;
+  font-size: 18px;
+  border-radius: 11px;
+  border: 1px solid #b7ab8d;
+  background: rgba(255, 255, 255, 0.7);
+  color: #4a3f2b;
+}
+.account-form .input::placeholder {
+  color: #9a8f73;
+}
+.account-form .input:focus {
+  border-color: #4a3f2b;
+}
+
+.account-form .error-text {
+  margin: 0;
+  color: #8a3a34;
+  font-size: 16px;
+}
+
+/* Paridade com o botão "Criar novo projeto" do dashboard (.novo). */
+.account-form .btn-primary {
+  align-self: flex-start;
+  padding: 17px 36px;
+  font-size: 17px;
+  border-radius: 13px;
+  background: #4a3f2b;
+  color: #fff;
+}
+.account-form .btn-primary:hover:not(:disabled) {
+  background: #3a3120;
+  border-color: transparent;
+}
+
+/* Com a sidebar aberta a área útil encolhe bem antes do celular; o que cede
+   primeiro é o espaçamento, não a letra. */
+@media (max-width: 1200px) {
+  :host {
+    padding: 44px 30px 62px;
+  }
+  .account {
+    gap: 34px;
+  }
+  .account-header h1 {
+    font-size: 36px;
+  }
+  .account-form {
+    padding: 28px;
+  }
+}
+
+@media (max-width: 720px) {
+  :host {
+    padding: 34px 20px 48px;
+  }
+  .account {
+    gap: 30px;
+  }
+  .account-header h1 {
+    font-size: 32px;
+  }
+  .account-header p {
+    font-size: 16px;
+  }
+  .account-form .input {
+    font-size: 16px;
+  }
+  .account-form .btn-primary {
+    align-self: stretch;
+  }
+}

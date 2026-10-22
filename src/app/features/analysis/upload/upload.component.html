@@ -1,0 +1,168 @@
+<div
+  class="dropzone"
+  [class.dragover]="dragOver()"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+>
+  @if (uploading()) {
+    <div class="dz-content">
+      <app-spinner size="md" />
+      <p class="dz-title">Enviando arquivo…</p>
+    </div>
+  } @else {
+    <div class="dz-content">
+      <svg
+        class="folder-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+      </svg>
+      <p class="dz-title">{{ result() ? 'Arraste aqui para substituir o projeto atual' : 'Arraste aqui o arquivo zip para análise' }}</p>
+      <p class="dz-hint">ou</p>
+      <label class="browse-btn">
+        Selecionar arquivo
+        <input type="file" accept=".zip" class="sr-only" (change)="onFileSelected($event)" />
+      </label>
+    </div>
+  }
+</div>
+
+@if (result(); as r) {
+  <div class="lists">
+    <section class="group">
+      <button
+        class="group-header"
+        type="button"
+        (click)="toggleAccepted()"
+        [attr.aria-expanded]="acceptedOpen()"
+      >
+        <svg
+          class="chevron"
+          [class.open]="acceptedOpen()"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+        <span class="group-title">Arquivos aceitos</span>
+        <span class="count good">{{ acceptedItems().length }}</span>
+      </button>
+      @if (acceptedOpen()) {
+        <div class="group-body">
+          @for (item of acceptedItems(); track item.path) {
+            <div class="file-card">
+              <svg
+                class="file-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+                <path d="M14 2v6h6" />
+              </svg>
+              <div class="file-info">
+                <span class="file-name">{{ fileName(item) }}</span>
+                @if (fileDir(item)) {
+                  <span class="file-path">{{ fileDir(item) }}</span>
+                }
+                <span class="file-size">{{ formatBytes(item.size_bytes) }}</span>
+              </div>
+              <svg
+                class="status-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="m8 12 2.5 2.5L16 9" />
+              </svg>
+            </div>
+          }
+        </div>
+      }
+    </section>
+
+    <section class="group">
+      <button
+        class="group-header rejected"
+        type="button"
+        (click)="toggleRejected()"
+        [attr.aria-expanded]="rejectedOpen()"
+      >
+        <svg
+          class="chevron"
+          [class.open]="rejectedOpen()"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+        <span class="group-title">Arquivos rejeitados</span>
+        <span class="count bad">{{ rejectedItems().length }}</span>
+      </button>
+      @if (rejectedOpen()) {
+        <div class="group-body">
+          @for (item of rejectedItems(); track item.path) {
+            <div class="file-card rejected">
+              <svg
+                class="file-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+                <path d="M14 2v6h6" />
+              </svg>
+              <div class="file-info">
+                <span class="file-name">{{ fileName(item) }}</span>
+                @if (fileDir(item)) {
+                  <span class="file-path">{{ fileDir(item) }}</span>
+                }
+                <span class="file-size">{{ formatBytes(item.size_bytes) }}</span>
+                @if (item.reason) {
+                  <span class="reason-text">{{ item.reason }}</span>
+                }
+              </div>
+              <svg
+                class="status-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="m9 9 6 6" />
+                <path d="m15 9-6 6" />
+              </svg>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  </div>
+}

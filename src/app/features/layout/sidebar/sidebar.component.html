@@ -1,0 +1,114 @@
+<aside class="sidebar" [class.collapsed]="collapsed()">
+  <div class="sidebar-top">
+    <a class="brand" routerLink="/app/projects" title="Ir para os seus projetos">
+      <div class="brand-mark">E</div>
+      <span class="brand-name">EngRev</span>
+    </a>
+    <button
+      class="collapse-btn"
+      type="button"
+      [attr.title]="collapsed() ? 'Expandir menu' : 'Recolher menu'"
+      (click)="toggleCollapsed()"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+    </button>
+  </div>
+
+  <button class="new-project-btn" type="button" (click)="createProject()" [disabled]="creating()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+    <span class="label">{{ creating() ? 'Criando…' : 'Criar novo projeto' }}</span>
+  </button>
+
+  <nav class="project-list" aria-label="Projetos">
+    @for (p of projects(); track p.id) {
+      @if (editingId() === p.id) {
+        <!-- Sem <form> de propósito. Ele existia só para capturar o Enter, mas o
+             componente não importa FormsModule: nenhuma diretiva casava com o
+             <form>, ninguém chamava preventDefault() e o Enter disparava a
+             submissão implícita do navegador -- um GET na própria URL, ou seja,
+             recarga completa da SPA a cada renomeação. O Enter é escutado direto
+             no input. -->
+        <div class="rename-row">
+          <input
+            class="rename-input"
+            type="text"
+            [value]="editingName()"
+            (input)="editingName.set($any($event.target).value)"
+            (keydown.enter)="saveRename()"
+            (keydown.esc)="cancelRename()"
+            (blur)="saveRename()"
+          />
+        </div>
+      } @else if (confirmId() === p.id) {
+        <div class="confirm-row">
+          <span class="confirm-text">Excluir projeto?</span>
+          <div class="confirm-actions">
+            <button class="confirm-yes" type="button" (click)="confirmDelete(p.id)">Excluir</button>
+            <button class="confirm-no" type="button" (click)="cancelDelete()">Cancelar</button>
+          </div>
+        </div>
+      } @else {
+        <div class="project-item">
+          <a
+            class="project-link"
+            [routerLink]="['/app/projects', p.id]"
+            routerLinkActive="active"
+            [attr.title]="p.name"
+          >
+            <span class="project-badge">{{ p.name[0]?.toUpperCase() }}</span>
+            <span class="project-name">{{ p.name }}</span>
+          </a>
+          <div class="project-actions">
+            <button type="button" [attr.title]="'Renomear ' + p.name" (click)="startRename(p)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+              </svg>
+            </button>
+            <button type="button" [attr.title]="'Excluir ' + p.name" (click)="toggleDelete(p.id)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      }
+    } @empty {
+      @if (storeLoaded()) {
+        <p class="empty-projects">Nenhum projeto ainda</p>
+      }
+    }
+  </nav>
+
+  <div class="sidebar-footer" #footerRef>
+    <button class="user-chip" type="button" (click)="toggleMenu()">
+      <span class="avatar">{{ initial }}</span>
+      <span class="user-name">{{ displayName }}</span>
+      <svg class="user-caret" [class.open]="menuOpen()" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </button>
+
+    @if (menuOpen()) {
+      <div class="user-menu">
+        <button type="button" (click)="goAccount()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21a8 8 0 0 1 16 0" />
+          </svg>
+          Gerenciar conta
+        </button>
+        <button type="button" (click)="logout()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <path d="m16 17 5-5-5-5M21 12H9" />
+          </svg>
+          Deslogar
+        </button>
+      </div>
+    }
+  </div>
+</aside>

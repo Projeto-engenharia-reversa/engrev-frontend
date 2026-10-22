@@ -1,0 +1,58 @@
+<div class="loading-screen">
+  @if (falhou()) {
+    <div class="loading-wrap">
+      <p class="loading-title">A análise falhou</p>
+      @if (projectName()) {
+        <p class="run-label">{{ projectName() }} · run #{{ runId() }}</p>
+      }
+      <p class="error-text">{{ error() }}</p>
+      <button class="btn btn-primary" type="button" (click)="openResult()">Voltar para o projeto</button>
+    </div>
+  } @else {
+    <div class="loading-wrap">
+      @if (concluido()) {
+        <span class="check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m4 12.5 5.5 5.5L20 6.5" />
+          </svg>
+        </span>
+      } @else {
+        <span class="loader" aria-label="Analisando"></span>
+      }
+
+      <div class="cabecalho">
+        <p class="loading-title">{{ projectName() || 'Analisando projeto' }}</p>
+        <p class="run-label">run #{{ runId() }}</p>
+      </div>
+
+      <div class="bar">
+        <div class="bar-fill" [class.ativo]="emAndamento()" [style.width.%]="progress() * 100"></div>
+      </div>
+      <div class="bar-labels">
+        <span>{{ stageLabel() }}</span>
+        <span>{{ progress() * 100 | number: '1.0-0' }}%</span>
+      </div>
+
+      <p class="status-message">
+        {{ statusMessage() }}
+        @if (emAndamento()) {
+          <span class="tempo">({{ tempo() }})</span>
+        }
+      </p>
+
+      <!-- A modelagem é ~99% do tempo da pipeline e fica parada em 72% por mais
+           de um minuto. Dizer isso é mais honesto do que simular progresso. -->
+      @if (reconectando()) {
+        <p class="nota">Conexão ao vivo perdida — acompanhando por consultas periódicas.</p>
+      }
+
+      @if (concluido()) {
+        <button class="btn btn-primary" type="button" (click)="openResult()">Ver resultado</button>
+      } @else {
+        <!-- Sair não interrompe nada: a análise roda no servidor e continua sem o
+             navegador. Ao voltar no projeto a tela é retomada neste mesmo ponto. -->
+        <a class="sair" routerLink="/app/projects">A análise continua rodando se você sair</a>
+      }
+    </div>
+  }
+</div>

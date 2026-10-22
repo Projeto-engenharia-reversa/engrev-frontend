@@ -1,0 +1,44 @@
+<div class="auth-wrap">
+  <div class="card auth-card">
+    <div class="brand">
+      <div class="brand-mark">E</div>
+      <h1>EngRev</h1>
+      <p class="muted">Engenharia reversa de código com IA</p>
+    </div>
+    <form (ngSubmit)="onSubmit()" novalidate>
+      <div class="field">
+        <label class="label" for="email">E-mail</label>
+        <input
+          id="email"
+          class="input"
+          type="email"
+          name="email"
+          autocomplete="email"
+          [(ngModel)]="email"
+          required
+        />
+      </div>
+      <div class="field">
+        <label class="label" for="password">Senha</label>
+        <input
+          id="password"
+          class="input"
+          type="password"
+          name="password"
+          autocomplete="current-password"
+          [(ngModel)]="password"
+          required
+        />
+      </div>
+      @if (error()) {
+        <div class="error-text" role="alert">{{ error() }}</div>
+      }
+      <button class="btn btn-primary" type="submit" [disabled]="submitting()">
+        {{ submitting() ? 'Entrando…' : 'Entrar' }}
+      </button>
+    </form>
+    <p class="muted auth-switch">
+      Não tem conta? <a routerLink="/register">Cadastre-se</a>
+    </p>
+  </div>
+</div>

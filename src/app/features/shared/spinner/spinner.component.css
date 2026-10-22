@@ -1,0 +1,41 @@
+:host {
+  display: inline-flex;
+}
+
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.spinner.sm {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
+}
+
+/* A centralização vai na propriedade `translate`, não em `transform`: a keyframe
+   `spin` escreve `transform`, e um `transform: translate(...)` aqui seria
+   sobrescrito por ela. O navegador interpolaria por matriz entre a translação e
+   `rotate(360deg)` -- que é a identidade -- então o anel deslizava do centro
+   para o canto superior esquerdo sem girar nenhum grau. `translate` é uma
+   propriedade independente e as duas convivem. */
+.spinner.lg {
+  width: 44px;
+  height: 44px;
+  border-width: 4px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 100;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

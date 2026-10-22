@@ -1,0 +1,102 @@
+@if (project(); as p) {
+  @if (!hasSuccessfulRun(p)) {
+    <div class="upload-screen">
+      <header class="upload-screen-header">
+        <h1>{{ p.name }}</h1>
+      </header>
+      <app-upload [projectId]="p.id" (uploaded)="onUploaded()" />
+      @if (p.status === 'ready') {
+        <div class="analyze-row">
+          <button class="btn btn-primary" type="button" (click)="analyze()" [disabled]="analyzing()">
+            {{ analyzing() ? 'Iniciando…' : 'Executar análise' }}
+          </button>
+        </div>
+      }
+      @if (error()) {
+        <p class="error-text">{{ error() }}</p>
+      }
+    </div>
+  } @else {
+    <div class="result-screen">
+      <header class="result-header">
+        <a routerLink="/app/projects" class="back-link">&larr; Projetos</a>
+        <h2>{{ p.name }}</h2>
+        <p class="muted">criado em {{ p.created_at | date: 'short' }}</p>
+      </header>
+
+      @if (error()) {
+        <p class="error-text result-error">{{ error() }}</p>
+      }
+
+      @if (loadingResult()) {
+        <div class="card result-panel">
+          <p class="muted">Carregando resultado…</p>
+        </div>
+      } @else if (runError()) {
+        <div class="card result-panel">
+          <h3 class="run-error-title">A análise falhou</h3>
+          <p class="run-error-text">{{ runError() }}</p>
+        </div>
+      } @else {
+        <div class="card result-panel">
+          <div class="tabs">
+            <button
+              type="button"
+              class="tab"
+              [class.active]="activeTab() === 'mer'"
+              (click)="activeTab.set('mer')"
+            >
+              Modelo ER
+            </button>
+            <button
+              type="button"
+              class="tab"
+              [class.active]="activeTab() === 'sql'"
+              (click)="activeTab.set('sql')"
+            >
+              SQL
+            </button>
+            <button
+              type="button"
+              class="tab"
+              [class.active]="activeTab() === 'explain'"
+              (click)="activeTab.set('explain')"
+            >
+              Parecer
+            </button>
+          </div>
+
+          <div class="tab-body">
+            @switch (activeTab()) {
+              @case ('mer') {
+                @if (erdSrc()) {
+                  <app-mermaid-viewer [src]="erdSrc()" />
+                } @else {
+                  <p class="muted">Sem diagrama disponível.</p>
+                }
+              }
+              @case ('sql') {
+                @if (sqlSrc()) {
+                  <app-sql-viewer [sql]="sqlSrc()" />
+                } @else {
+                  <p class="muted">Sem SQL disponível.</p>
+                }
+              }
+              @default {
+                @if (explanation()) {
+                  <app-ai-report [report]="explanation()" />
+                } @else {
+                  <p class="muted">Sem parecer disponível.</p>
+                }
+              }
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+} @else {
+  @if (error()) {
+    <p class="error-text">{{ error() }}</p>
+  }
+}

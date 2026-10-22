@@ -1,0 +1,447 @@
+.sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: #000;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 14px 12px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  transition: width 0.18s ease;
+  z-index: 30;
+}
+
+.sidebar.collapsed {
+  width: 72px;
+}
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* A marca é o caminho de volta para a tela de projetos -- o único jeito de
+   chegar lá de propósito, já que nenhum item da lista aponta para ela. */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 17px;
+  min-width: 0;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 2px;
+  margin: -2px;
+  transition: opacity 0.15s;
+}
+.brand:hover {
+  opacity: 0.75;
+  text-decoration: none;
+}
+.brand:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.brand-name {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: var(--bg);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.collapse-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+.collapse-btn svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.18s ease;
+}
+.sidebar.collapsed .collapse-btn svg {
+  transform: rotate(180deg);
+}
+
+.new-project-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #111;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.new-project-btn:hover:not(:disabled) {
+  background: #1a1a1a;
+  border-color: var(--primary);
+}
+.new-project-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.new-project-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.sidebar.collapsed .new-project-btn {
+  padding: 11px;
+}
+.sidebar.collapsed .new-project-btn .label {
+  display: none;
+}
+
+.project-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 -4px;
+  padding: 0 4px;
+}
+
+.project-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.project-link {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: #c3c7d1;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+.project-link:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  text-decoration: none;
+}
+.project-link.active {
+  background: rgba(99, 102, 241, 0.18);
+  color: #fff;
+}
+
+.project-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #9ca3b0;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.project-link.active .project-badge {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--bg);
+}
+
+.project-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.project-actions {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-left: 12px;
+  background: linear-gradient(to right, transparent, #0a0a0a 35%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+.project-item:hover .project-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+.project-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #9ca3b0;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.project-actions button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+.project-actions svg {
+  width: 15px;
+  height: 15px;
+}
+
+.sidebar.collapsed .project-link {
+  justify-content: center;
+  padding: 9px 0;
+}
+.sidebar.collapsed .project-name,
+.sidebar.collapsed .project-actions {
+  display: none;
+}
+
+.rename-row,
+.confirm-row {
+  padding: 9px 10px;
+}
+
+.rename-row {
+  display: flex;
+}
+
+.rename-input {
+  width: 100%;
+  padding: 7px 9px;
+  border-radius: 7px;
+  border: 1px solid var(--primary);
+  background: #111;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13.5px;
+  outline: none;
+}
+
+.confirm-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 8px;
+  background: rgba(248, 113, 113, 0.08);
+}
+
+.confirm-text {
+  font-size: 12.5px;
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.confirm-actions button {
+  flex: 1;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.confirm-yes {
+  background: var(--danger);
+  color: #fff;
+}
+.confirm-no {
+  background: #26262b;
+  color: #c3c7d1;
+}
+.confirm-no:hover {
+  background: #333;
+}
+
+.empty-projects {
+  margin: 0;
+  padding: 14px 10px;
+  font-size: 13px;
+  color: #5c6270;
+  text-align: center;
+}
+.sidebar.collapsed .empty-projects {
+  display: none;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  position: relative;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+.user-chip:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-2);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-caret {
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+.user-caret.open {
+  transform: rotate(180deg);
+}
+
+.sidebar.collapsed .user-chip {
+  justify-content: center;
+  padding: 8px 0;
+}
+.sidebar.collapsed .user-name,
+.sidebar.collapsed .user-caret {
+  display: none;
+}
+
+.user-menu {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  min-width: 220px;
+  background: #141417;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 40;
+}
+
+.user-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #d5d8e0;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+}
+.user-menu button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+.user-menu button:last-child:hover {
+  color: var(--danger);
+}
+.user-menu svg {
+  width: 16px;
+  height: 16px;
+}
+
+.project-list::-webkit-scrollbar {
+  width: 6px;
+}
+.project-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}

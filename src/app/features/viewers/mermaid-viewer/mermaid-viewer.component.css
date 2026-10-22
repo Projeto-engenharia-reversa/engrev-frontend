@@ -1,0 +1,12 @@
+.mermaid-container {
+  overflow: auto;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.mermaid-container svg {
+  max-width: 100%;
+  height: auto;
+}

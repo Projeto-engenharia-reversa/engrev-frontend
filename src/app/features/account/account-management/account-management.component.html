@@ -1,0 +1,42 @@
+<div class="account">
+  <header class="account-header">
+    <h1>Minha conta</h1>
+    <p class="muted">{{ user()?.email }}</p>
+  </header>
+
+  <form class="account-form" (ngSubmit)="onSave()" novalidate>
+    <div class="field">
+      <label class="label" for="name">Nome</label>
+      <input id="name" class="input" type="text" name="name" [(ngModel)]="name" />
+    </div>
+    <div class="field">
+      <label class="label" for="password">Nova senha</label>
+      <input
+        id="password"
+        class="input"
+        type="password"
+        name="password"
+        autocomplete="new-password"
+        placeholder="Deixe vazio para manter a atual"
+        [(ngModel)]="password"
+      />
+    </div>
+    <div class="field">
+      <label class="label" for="confirm">Confirmar nova senha</label>
+      <input
+        id="confirm"
+        class="input"
+        type="password"
+        name="confirm"
+        autocomplete="new-password"
+        [(ngModel)]="confirm"
+      />
+    </div>
+    @if (error()) {
+      <p class="error-text">{{ error() }}</p>
+    }
+    <button class="btn btn-primary" type="submit" [disabled]="saving()">
+      {{ saving() ? 'Salvando…' : 'Salvar' }}
+    </button>
+  </form>
+</div>

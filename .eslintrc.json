@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "ignorePatterns": ["dist/**", "node_modules/**", "out-tsc/**"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "extends": ["plugin:@typescript-eslint/recommended", "plugin:@angular-eslint/recommended"],
+      "parserOptions": { "project": ["./tsconfig.json"] },
+      "rules": {}
+    },
+    {
+      "files": ["*.html"],
+      "parser": "@angular-eslint/template-parser",
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
+    }
+  ]
+}

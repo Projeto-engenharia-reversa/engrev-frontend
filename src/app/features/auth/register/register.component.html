@@ -1,0 +1,67 @@
+<div class="auth-wrap">
+  <div class="card auth-card">
+    <div class="brand">
+      <div class="brand-mark">E</div>
+      <h1>Criar conta</h1>
+      <p class="muted">Engenharia reversa de código com IA</p>
+    </div>
+    <form (ngSubmit)="onSubmit()" novalidate>
+      <div class="field">
+        <label class="label" for="name">Nome (opcional)</label>
+        <input
+          id="name"
+          class="input"
+          type="text"
+          name="name"
+          autocomplete="name"
+          [(ngModel)]="name"
+        />
+      </div>
+      <div class="field">
+        <label class="label" for="email">E-mail</label>
+        <input
+          id="email"
+          class="input"
+          type="email"
+          name="email"
+          autocomplete="email"
+          [(ngModel)]="email"
+          required
+        />
+      </div>
+      <div class="field">
+        <label class="label" for="password">Senha</label>
+        <input
+          id="password"
+          class="input"
+          type="password"
+          name="password"
+          autocomplete="new-password"
+          [(ngModel)]="password"
+          required
+        />
+      </div>
+      <div class="field">
+        <label class="label" for="confirm">Confirmar senha</label>
+        <input
+          id="confirm"
+          class="input"
+          type="password"
+          name="confirm"
+          autocomplete="new-password"
+          [(ngModel)]="confirm"
+          required
+        />
+      </div>
+      @if (error()) {
+        <div class="error-text" role="alert">{{ error() }}</div>
+      }
+      <button class="btn btn-primary" type="submit" [disabled]="submitting()">
+        {{ submitting() ? 'Cadastrando…' : 'Criar conta' }}
+      </button>
+    </form>
+    <p class="muted auth-switch">
+      Já tem conta? <a routerLink="/login">Entrar</a>
+    </p>
+  </div>
+</div>

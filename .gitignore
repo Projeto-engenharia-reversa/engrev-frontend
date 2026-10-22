@@ -1,0 +1,15 @@
+# Dependências e saída de build
+node_modules/
+dist/
+.angular/
+out-tsc/
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDEs e sistema operacional
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

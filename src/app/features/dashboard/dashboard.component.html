@@ -1,0 +1,55 @@
+<div class="dashboard">
+  <header class="topo">
+    <div class="titulo">
+      <h1>Seus projetos</h1>
+      <p class="resumo">
+        @if (loaded()) {
+          {{ projects().length }} {{ projects().length === 1 ? 'projeto' : 'projetos' }}
+          @if (analisados() > 0) {
+            · {{ analisados() }} {{ analisados() === 1 ? 'analisado' : 'analisados' }}
+          }
+        } @else {
+          Carregando…
+        }
+      </p>
+    </div>
+    <div class="usuario" [attr.title]="displayName">
+      <span class="usuario-nome">{{ displayName }}</span>
+      <span class="usuario-inicial">{{ initial }}</span>
+    </div>
+  </header>
+
+  <ul class="lista">
+    @for (p of projects(); track p.id) {
+      <li>
+        <a class="projeto" [routerLink]="['/app/projects', p.id]">
+          <span class="projeto-marca">{{ p.name[0]?.toUpperCase() }}</span>
+          <span class="projeto-texto">
+            <span class="projeto-nome">{{ p.name }}</span>
+            <span class="projeto-meta">
+              {{ quandoFoi(p.last_activity_at) }}
+              @if (p.runs_count > 0) {
+                · {{ p.runs_count }} {{ p.runs_count === 1 ? 'análise' : 'análises' }}
+              }
+            </span>
+          </span>
+          <span class="situacao" [class]="'tom-' + situacao(p).tom">{{ situacao(p).rotulo }}</span>
+          <svg class="seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </a>
+      </li>
+    } @empty {
+      @if (loaded()) {
+        <li class="vazio">Nenhum projeto ainda. Crie o primeiro abaixo.</li>
+      }
+    }
+  </ul>
+
+  <button class="novo" type="button" (click)="createProject()" [disabled]="creating()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+    {{ creating() ? 'Criando…' : 'Criar novo projeto' }}
+  </button>
+</div>

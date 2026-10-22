@@ -1,0 +1,265 @@
+/* O campo bege é a identidade desta rota e continua sendo. O que muda é o que
+   vive em cima dele: antes um "+" solto, agora a lista de retomada.
+
+   As cores vêm da mesma família bege dos tokens (#dbc19e / #4a3f2b / #6b6046),
+   escritas literais porque aqui o fundo é o bege e não o --bg escuro: os tokens
+   de texto do tema global assumem fundo escuro e ficariam ilegíveis.
+
+   A escala é deliberadamente grande. Esta tela mostra poucas linhas num campo
+   que ocupa a largura inteira depois da sidebar: em tipografia de corpo normal
+   ela vira um bloquinho de conteúdo boiando em bege. O teto de largura existe só
+   para o nome do projeto não ficar a meio metro do selo de situação em monitor
+   ultrawide -- e é alto (1280px), não uma coluna de leitura. */
+.dashboard {
+  min-height: 100vh;
+  background: #dbc19e;
+  margin: -28px -32px;
+  padding: 60px 46px 84px;
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+
+.topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.titulo h1 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 700;
+  color: #3a3020;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
+}
+
+.resumo {
+  margin: 10px 0 0;
+  font-size: 18px;
+  color: #6b6046;
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.usuario-nome {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4a3f2b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 290px;
+}
+
+.usuario-inicial {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #4a3f2b;
+  color: #dbc19e;
+  font-weight: 700;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lista {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1280px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.projeto {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 26px 30px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.34);
+  border: 1px solid rgba(74, 63, 43, 0.14);
+  color: #3a3020;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+.projeto:hover {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(74, 63, 43, 0.3);
+  text-decoration: none;
+}
+
+.projeto-marca {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 17px;
+  background: #4a3f2b;
+  color: #dbc19e;
+  font-weight: 700;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projeto-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  flex: 1;
+}
+
+.projeto-nome {
+  font-weight: 600;
+  font-size: 23px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.projeto-meta {
+  font-size: 16px;
+  color: #6b6046;
+}
+
+/* A situação é lida de relance, então ela precisa de forma além de texto: cada
+   tom tem cor de fundo própria e não só um rótulo diferente. */
+.situacao {
+  flex-shrink: 0;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.tom-neutro {
+  background: rgba(74, 63, 43, 0.12);
+  color: #6b6046;
+}
+.tom-ok {
+  background: rgba(23, 106, 71, 0.16);
+  color: #17603f;
+}
+.tom-andando {
+  background: rgba(148, 100, 12, 0.18);
+  color: #7a5405;
+}
+.tom-falhou {
+  background: rgba(150, 40, 32, 0.16);
+  color: #8c2a20;
+}
+
+.seta {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  color: #8a7c5e;
+}
+
+.vazio {
+  padding: 44px 26px;
+  border-radius: 18px;
+  border: 1px dashed rgba(74, 63, 43, 0.3);
+  color: #6b6046;
+  font-size: 18px;
+  text-align: center;
+}
+
+.novo {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 17px 36px;
+  border-radius: 13px;
+  border: 1px solid rgba(74, 63, 43, 0.28);
+  background: transparent;
+  color: #4a3f2b;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.novo:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.45);
+  border-color: rgba(74, 63, 43, 0.45);
+}
+.novo:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.novo svg {
+  width: 23px;
+  height: 23px;
+}
+
+/* Passo intermediário: com a sidebar aberta a área útil encolhe bem antes do
+   celular, e aí o que precisa ceder primeiro é o espaçamento, não a letra. */
+@media (max-width: 1200px) {
+  .dashboard {
+    padding: 44px 30px 62px;
+    gap: 34px;
+  }
+  .titulo h1 {
+    font-size: 36px;
+  }
+  .projeto {
+    padding: 22px 24px;
+    gap: 20px;
+  }
+  .projeto-marca {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+  }
+  .projeto-nome {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 720px) {
+  .dashboard {
+    padding: 34px 20px 48px;
+    gap: 30px;
+  }
+  .titulo h1 {
+    font-size: 32px;
+  }
+  .resumo {
+    font-size: 16px;
+  }
+  .usuario-nome {
+    display: none;
+  }
+  .situacao {
+    display: none;
+  }
+  .projeto-marca {
+    width: 52px;
+    height: 52px;
+    font-size: 21px;
+  }
+  .projeto-nome {
+    font-size: 19px;
+  }
+}
