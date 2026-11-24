@@ -70,7 +70,7 @@
             @switch (activeTab()) {
               @case ('mer') {
                 @if (erdSrc()) {
-                  <app-mermaid-viewer [src]="erdSrc()" />
+                  <app-mermaid-viewer [src]="erdSrc()" [nomeBase]="(project()?.name ?? '') + '-diagrama-er'" />
                 } @else {
                   <p class="muted">Sem diagrama disponível.</p>
                 }

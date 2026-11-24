@@ -1,3 +1,14 @@
+<div class="mermaid-toolbar">
+  <button
+    type="button"
+    class="btn btn-ghost btn-sm"
+    (click)="baixarSvg()"
+    [disabled]="!pronto()"
+    title="Baixar o diagrama ER como imagem vetorial"
+  >
+    Baixar SVG
+  </button>
+</div>
 <div #container class="mermaid-container"></div>
 @if (error()) {
   <p class="error-text">{{ error() }}</p>
